@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec java $JAVA_OPTIONS -jar /usr/local/share/java/otp.jar $@
