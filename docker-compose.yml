@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  otp:
+    image: otp
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    volumes:
+      - ./graphs:/var/otp/graphs
+    environment:
+      - JAVA_OPTIONS=-Xmx8G
+    command:
+      [
+        '--server',
+        '--maxThreads 4',
+        '--analyst',
+        '--autoScan',
+        '--insecure',
+        '--verbose',
+      ]

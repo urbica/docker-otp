@@ -1,3 +1,6 @@
 *.obj
 *.pbf
 *.zip
+
+graphs/
+osmconvert*
