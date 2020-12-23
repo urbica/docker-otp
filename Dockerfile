@@ -1,8 +1,8 @@
-FROM java:8-alpine
-LABEL maintainer="Stepan Kuzmin <to.stepan.kuzmin@gmail.com>"
+FROM lpicanco/java11-alpine:11.0
+LABEL authors="Stepan Kuzmin <to.stepan.kuzmin@gmail.com>, Sandeep Pandey <spandey.ike@gmail.com"
 
-ENV OTP_VERSION=1.4.0
-ENV JAVA_OPTIONS=-Xmx1G
+ENV OTP_VERSION=2.0.0
+ENV JAVA_OPTIONS=-Xmx2G
 
 ADD https://repo1.maven.org/maven2/org/opentripplanner/otp/$OTP_VERSION/otp-$OTP_VERSION-shaded.jar /usr/local/share/java/
 

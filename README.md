@@ -4,49 +4,52 @@
 
 ## Usage
 
+Build the docker image from the Dockerfile:
+
+```shell
+docker build -t my_docker_id/otp .
+```
+
 Build graphs using GTFS and OSM extract in the current directory:
 
 ```shell
 docker run \
-  -v $PWD:/graphs \
-  -e JAVA_OPTIONS=-Xmx4G \
-  urbica/otp --build /graphs
+-v $PWD/graphs:/var/otp/graphs \
+-e JAVA_OPTIONS=-Xmx4G \
+my_docker_id/otp --build \
+--save /var/otp/graphs/city_name
 ```
 
-Run OTP server:
+Run OTP server by loading the graph, and exposing OTP's port 8080 to our machine's port 8080:
 
 ```shell
 docker run \
   -p 8080:8080 \
-  -v $PWD:/var/otp/graphs \
+  -v $PWD/graphs:/var/otp/graphs \
   -e JAVA_OPTIONS=-Xmx4G \
-  otp --server --autoScan --verbose
+  my_docker_id/otp --load /var/otp/graphs/city_name/
 ```
 
-...or run OTP server with analyst module:
-
-```shell
-docker run \
-  -p 8080:8080 \
-  -v $PWD:/graphs \
-  -e JAVA_OPTIONS=-Xmx4G \
-  urbica/otp --basePath /data --server --analyst --autoScan --verbose
-```
+It seems [Analyst API ](https://docs.opentripplanner.org/en/latest/OTP2-MigrationGuide/#analyst "Analyst API ")have been removed in this version.
 
 ## Basic Tutorial
 
-Based on [OpenTripPlanner Basic Tutorial](https://opentripplanner.readthedocs.io/en/latest/Basic-Tutorial/).
+Based on [OpenTripPlanner Basic Tutorial](https://docs.opentripplanner.org/en/latest/Basic-Tutorial/).
 
 ### Get some data
-
-Get GTFS for Transit Schedules and Stops
+Clone this repo to your machine.
+```shell
+git clone https://github.com/ikespand/docker-otp
+cd docker-otp
+```
+Get GTFS for Transit Schedules and Stops (As a sample for Portland),
 
 ```shell
 mkdir -p ./graphs/portland
 wget "http://developer.trimet.org/schedule/gtfs.zip" -O ./graphs/portland/trimet.gtfs.zip
 ```
 
-Get OSM extract for Streets
+Get OpenStreetMap extract for the streets. osmconvert step is used to reduce the data size, you can skip this step if you've allocated sufficient memory to your docker. Otherwise [download](hthttps://wiki.openstreetmap.org/wiki/Osmconvert#Binariestp:// "download") osmconvert.
 
 ```shell
 wget http://download.geofabrik.de/north-america/us/oregon-latest.osm.pbf
@@ -56,30 +59,41 @@ mv portland.pbf ./graphs/portland
 
 ### Start up OTP
 
-Build graph
+Build the docker image from the Dockerfile:
+
+```shell
+docker build -t ikespand/otp .
+```
+
+Build graphs using GTFS and OSM extract in the current directory:
 
 ```shell
 docker run \
-  -v $PWD/graphs:/var/otp/graphs \
-  -e JAVA_OPTIONS=-Xmx4G \
-  urbica/otp --build /var/otp/graphs/portland
+ -v $PWD/graphs:/var/otp/graphs \
+ -e JAVA_OPTIONS=-Xmx4G \
+ ikespand/otp --build \
+ --save /var/otp/graphs/portland
 ```
 
-Run OTP server:
+Run OTP server by loading the graph, and exposing OTP's port 8080 to our machine's port 8080:
 
 ```shell
 docker run \
   -p 8080:8080 \
   -v $PWD/graphs:/var/otp/graphs \
   -e JAVA_OPTIONS=-Xmx4G \
-  urbica/otp --server --autoScan --verbose
+  ikespand/otp --load /var/otp/graphs/portland
 ```
 
+Alternatively, modify the `docker-compose.yml` and then execute:
+```shell
+docker-compose up
+```
 The graph build operation should take about one minute to complete, and then you'll see a Grizzly server running message. At this point you have an OpenTripPlanner server running locally and can open http://localhost:8080/ in a web browser. You should be presented with a web client that will interact with your local OpenTripPlanner instance.
 
 This map-based user interface is in fact sending HTTP GET requests to the OTP server running on your local machine. It can be informative to watch the HTTP requests and responses being generated using the developer tools in your web browser.
 
-### Usage
+### Resources
 
 There are a number of different resources available through the HTTP API. Besides trip planning, OTP can also look up information about transit routes and stops from the GTFS you loaded and return this information as JSON. For example:
 

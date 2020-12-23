@@ -1,21 +1,17 @@
-version: '3.7'
+version: '2.0'
 
 services:
   otp:
-    image: otp
+    image: ikespand/otp
     restart: unless-stopped
     ports:
       - 8080:8080
     volumes:
       - ./graphs:/var/otp/graphs
     environment:
-      - JAVA_OPTIONS=-Xmx8G
+      - JAVA_OPTIONS=-Xmx2G
     command:
       [
-        '--server',
-        '--maxThreads 4',
-        '--analyst',
-        '--autoScan',
-        '--insecure',
-        '--verbose',
+        '--load /var/otp/graphs/stuttgart',
+        '--maxThreads 4'
       ]

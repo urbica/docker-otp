@@ -1,6 +1,6 @@
 *.obj
 *.pbf
 *.zip
-
+.DS_Store
 graphs/
 osmconvert*
