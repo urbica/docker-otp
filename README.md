@@ -20,7 +20,7 @@ docker run \
   -p 8080:8080 \
   -v $PWD:/var/otp/graphs \
   -e JAVA_OPTIONS=-Xmx4G \
-  otp --server --autoScan --verbose
+  urbica/otp --server --autoScan --verbose
 ```
 
 ...or run OTP server with analyst module:
