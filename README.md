@@ -4,19 +4,13 @@
 
 ## Usage
 
-Build the docker image from the Dockerfile:
-
-```shell
-docker build -t my_docker_id/otp .
-```
-
 Build graphs using GTFS and OSM extract in the current directory:
 
 ```shell
 docker run \
 -v $PWD/graphs:/var/otp/graphs \
 -e JAVA_OPTIONS=-Xmx4G \
-my_docker_id/otp --build \
+urbica/otp --build \
 --save /var/otp/graphs/city_name
 ```
 
@@ -27,7 +21,7 @@ docker run \
   -p 8080:8080 \
   -v $PWD/graphs:/var/otp/graphs \
   -e JAVA_OPTIONS=-Xmx4G \
-  my_docker_id/otp --load /var/otp/graphs/city_name/
+  urbica/otp --load /var/otp/graphs/city_name/
 ```
 
 It seems [Analyst API ](https://docs.opentripplanner.org/en/latest/OTP2-MigrationGuide/#analyst "Analyst API ")have been removed in this version.
@@ -37,11 +31,6 @@ It seems [Analyst API ](https://docs.opentripplanner.org/en/latest/OTP2-Migratio
 Based on [OpenTripPlanner Basic Tutorial](https://docs.opentripplanner.org/en/latest/Basic-Tutorial/).
 
 ### Get some data
-Clone this repo to your machine.
-```shell
-git clone https://github.com/ikespand/docker-otp
-cd docker-otp
-```
 Get GTFS for Transit Schedules and Stops (As a sample for Portland),
 
 ```shell
@@ -59,11 +48,7 @@ mv portland.pbf ./graphs/portland
 
 ### Start up OTP
 
-Build the docker image from the Dockerfile:
 
-```shell
-docker build -t ikespand/otp .
-```
 
 Build graphs using GTFS and OSM extract in the current directory:
 
@@ -71,7 +56,7 @@ Build graphs using GTFS and OSM extract in the current directory:
 docker run \
  -v $PWD/graphs:/var/otp/graphs \
  -e JAVA_OPTIONS=-Xmx4G \
- ikespand/otp --build \
+ urbica/otp --build \
  --save /var/otp/graphs/portland
 ```
 
@@ -82,7 +67,7 @@ docker run \
   -p 8080:8080 \
   -v $PWD/graphs:/var/otp/graphs \
   -e JAVA_OPTIONS=-Xmx4G \
-  ikespand/otp --load /var/otp/graphs/portland
+  urbica/otp --load /var/otp/graphs/portland
 ```
 
 Alternatively, modify the `docker-compose.yml` and then execute:
