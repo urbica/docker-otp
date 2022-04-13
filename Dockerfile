@@ -1,4 +1,4 @@
-FROM java11-alpine:11.0
+FROM adoptopenjdk/openjdk11:jre-11.0.13_8-alpine
 LABEL authors="Stepan Kuzmin <to.stepan.kuzmin@gmail.com>, Sandeep Pandey <spandey.ike@gmail.com, Tariq Baig-Meininghaus tarbaig@gmail.com"
 
 ENV OTP_VERSION=2.0.0

@@ -2,7 +2,7 @@ version: '2.0'
 
 services:
   otp:
-    image: urbica/otp
+    image:  urbica/otp
     restart: unless-stopped
     ports:
       - 8080:8080
@@ -12,6 +12,6 @@ services:
       - JAVA_OPTIONS=-Xmx2G
     command:
       [
-        '--load /var/otp/graphs/stuttgart',
+        '--load /var/otp/graphs/portland',
         '--maxThreads 4'
       ]
